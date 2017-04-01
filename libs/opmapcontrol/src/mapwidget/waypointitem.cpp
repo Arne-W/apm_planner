@@ -66,6 +66,7 @@ namespace mapcontrol
         textBG->setPos(10,-picture.height());
         textBG->setVisible(false);
     }
+
     WayPointItem::WayPointItem(const internals::PointLatLng &coord,double const& altitude, const QString &description, MapGraphicItem *map) :
         map(map),
         autoreachedEnabled(true),
@@ -93,7 +94,7 @@ namespace mapcontrol
 
         // TODO have fun with colors....
         text = new QGraphicsSimpleTextItem(this);
-        text->setPen(QPen(Qt::red));
+//        text->setPen(QPen(Qt::red));
         text->setBrush(QBrush(Qt::red));
         text->setPos(10,-picture.height());
         text->setZValue(3);
