@@ -40,7 +40,7 @@ namespace mapcontrol
 *
 * @class WayPointItem waypointitem.h "waypointitem.h"
 */
-class WayPointItem:public QObject,public QGraphicsItem
+class WayPointItem: public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
@@ -66,7 +66,7 @@ public:
     */
     WayPointItem(internals::PointLatLng const& coord,double const& altitude,QString const& description,MapGraphicItem* map);
 
-    ~WayPointItem();
+    virtual ~WayPointItem();
 
 
     /**
