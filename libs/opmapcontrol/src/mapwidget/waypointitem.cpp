@@ -90,7 +90,7 @@ namespace mapcontrol
         SetShowNumber(shownumber);
         RefreshToolTip();
         RefreshPos();
-        setAcceptedMouseButtons(Qt::LeftButton);
+        setAcceptedMouseButtons(Qt::AllButtons);
 
         // TODO have fun with colors....
         text = new QGraphicsSimpleTextItem(this);
@@ -132,19 +132,34 @@ namespace mapcontrol
 
     void WayPointItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
-        text->setVisible(true);
-        textBG->setVisible(true);
-        RefreshToolTip();
-        QGraphicsItem::mousePressEvent(event);
+        if(event->button() == Qt::LeftButton)
+        {
+            text->setVisible(true);
+            textBG->setVisible(true);
+            RefreshToolTip();
+            QGraphicsItem::mousePressEvent(event);
+        }
+        else if(event->button() == Qt::RightButton)
+        {
+            // Deselect if the right button was pressed too
+            text->setVisible(false);
+            textBG->setVisible(false);
+            RefreshToolTip();
+            emit WPValuesChanged(this);
+            QGraphicsItem::mouseReleaseEvent(event);
+        }
     }
 
     void WayPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     {
-        text->setVisible(false);
-        textBG->setVisible(false);
-        RefreshToolTip();
-        emit WPValuesChanged(this);
-        QGraphicsItem::mouseReleaseEvent(event);
+        if(event->button() == Qt::LeftButton)
+        {
+            text->setVisible(false);
+            textBG->setVisible(false);
+            RefreshToolTip();
+            emit WPValuesChanged(this);
+            QGraphicsItem::mouseReleaseEvent(event);
+        }
     }
 
     void WayPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
