@@ -360,9 +360,9 @@ private slots:
 
     /**
      * @brief hideTableView - hides / shows the table view
-     * @param show - true: show table view, false: hide table view
+     * @param hide - true: hide table view, flase: show table view
      */
-    void hideTableView(bool show);
+    void hideTableView(bool hide);
 
     /**
      * @brief showValueUnderMouseClicked - handles the clicked signal of the "show vaules under mouse"
