@@ -287,7 +287,7 @@ LogAnalysis::LogAnalysis(QWidget *parent) :
     m_plotPtr->replot();
 
     // connect to default signals
-    connect(ui.hideTableWidgetCheckBox, SIGNAL(clicked(bool)), this, SLOT(hideTableView(bool)));
+    connect(ui.ShowTableWidgetCheckBox, SIGNAL(clicked(bool)), this, SLOT(hideTableView(bool)));
     connect(ui.showValuesCheckBox,      SIGNAL(clicked(bool)), this, SLOT(showValueUnderMouseClicked(bool)));
     connect(ui.modeDisplayCheckBox,     SIGNAL(clicked(bool)), this, SLOT(modeCheckboxClicked(bool)));
     connect(ui.evDisplayCheckBox,       SIGNAL(clicked(bool)), this, SLOT(eventCheckboxClicked(bool)));
@@ -308,6 +308,7 @@ LogAnalysis::LogAnalysis(QWidget *parent) :
     connect(ui.exportKmlButton, SIGNAL(clicked()), this, SLOT(exportKmlClicked()));
     connect(ui.graphControlsPushButton, SIGNAL(clicked()), this, SLOT(graphControlsButtonClicked()));
     connect(ui.resetScalingPushButton, SIGNAL(clicked()), this, SLOT(resetValueScaling()));
+    connect(ui.splitter, SIGNAL(splitterMoved(int, int)), this, SLOT(tableSplitterMoved(int, int)));
 
     loadSettings();
 }
@@ -566,7 +567,7 @@ void LogAnalysis::loadSettings()
     ui.errDisplayCheckBox->setChecked(settings.value("SHOW_ERR", Qt::Checked).toBool());
     ui.evDisplayCheckBox->setChecked(settings.value("SHOW_EV", Qt::Checked).toBool());
     ui.msgDisplayCheckBox->setChecked(settings.value("SHOW_MSG", Qt::Checked).toBool());
-    ui.hideTableWidgetCheckBox->setChecked(settings.value("HIDE_TABLE_VIEW", Qt::Checked).toBool());
+    ui.ShowTableWidgetCheckBox->setChecked(settings.value("SHOW_TABLE_VIEW", Qt::Checked).toBool());
     ui.showValuesCheckBox->setChecked(settings.value("SHOW_VALUES", Qt::Unchecked).toBool());
     settings.endGroup();
 }
@@ -579,22 +580,22 @@ void LogAnalysis::saveSettings()
     settings.setValue("SHOW_ERR", ui.errDisplayCheckBox->isChecked());
     settings.setValue("SHOW_EV", ui.evDisplayCheckBox->isChecked());
     settings.setValue("SHOW_MSG", ui.msgDisplayCheckBox->isChecked());
-    settings.setValue("HIDE_TABLE_VIEW", ui.hideTableWidgetCheckBox->isChecked());
+    settings.setValue("SHOW_TABLE_VIEW", ui.ShowTableWidgetCheckBox->isChecked());
     settings.setValue("SHOW_VALUES", ui.showValuesCheckBox->isChecked());
     settings.endGroup();
 }
 
-void LogAnalysis::hideTableView(bool hide)
+void LogAnalysis::hideTableView(bool show)
 {
-    if (hide)
-    {
-        ui.splitter->setSizes(QList<int>() << 1 << 0);
-        ui.filterShowPushButton->setVisible(false);
-    }
-    else
+    if (show)
     {
         ui.splitter->setSizes(QList<int>() << 1 << 1);
         ui.filterShowPushButton->setVisible(true);
+    }
+    else
+    {
+        ui.splitter->setSizes(QList<int>() << 1 << 0);
+        ui.filterShowPushButton->setVisible(false);
     }
 }
 
@@ -741,7 +742,7 @@ void LogAnalysis::logLoadingDone(AP2DataPlotStatus status)
     }
 
     // Show the table according to checkbox state
-    if(!ui.hideTableWidgetCheckBox->isChecked())  hideTableView(false);
+    if(!ui.ShowTableWidgetCheckBox->isChecked())  hideTableView(false);
 
     // Enable only the layers that are enabled by their checkbox
     if(ui.modeDisplayCheckBox->isChecked()) m_plotPtr->layer(ModeMessage::TypeName)->setVisible(true);
@@ -1404,6 +1405,36 @@ void LogAnalysis::enableTableCursor(bool enable)
     else
     {
         removeSimpleCursor();
+    }
+}
+
+void LogAnalysis::tableSplitterMoved(int pos, int index)
+{
+    Q_UNUSED(pos);
+    Q_UNUSED(index);
+
+    if(ui.tableWidget->size().height() > 0) // table view is visible
+    {
+        // set the buttons accordingly
+        if(!ui.filterShowPushButton->isVisible())
+        {
+            ui.filterShowPushButton->setVisible(true);
+        }
+        if(!ui.ShowTableWidgetCheckBox->isChecked())
+        {
+            ui.ShowTableWidgetCheckBox->setCheckState(Qt::Checked);
+        }
+    }
+    else
+    {
+        if(ui.filterShowPushButton->isVisible())
+        {
+            ui.filterShowPushButton->setVisible(false);
+        }
+        if(ui.ShowTableWidgetCheckBox->isChecked())
+        {
+            ui.ShowTableWidgetCheckBox->setCheckState(Qt::Unchecked);
+        }
     }
 }
 

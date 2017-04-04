@@ -357,9 +357,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="hideTableWidgetCheckBox">
+      <widget class="QCheckBox" name="ShowTableWidgetCheckBox">
        <property name="text">
-        <string>Hide Table View</string>
+        <string>Show Table View</string>
        </property>
        <property name="checked">
         <bool>false</bool>

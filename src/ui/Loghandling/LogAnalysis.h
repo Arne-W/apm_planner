@@ -360,9 +360,9 @@ private slots:
 
     /**
      * @brief hideTableView - hides / shows the table view
-     * @param hide - true: hide table view, false: show table view
+     * @param show - true: show table view, false: hide table view
      */
-    void hideTableView(bool hide);
+    void hideTableView(bool show);
 
     /**
      * @brief showValueUnderMouseClicked - handles the clicked signal of the "show vaules under mouse"
@@ -592,6 +592,15 @@ private slots:
      * @param enable - true checkbox is checked, false unchecked
      */
     void enableTableCursor(bool enable);
+
+    /**
+     * @brief tableSplitterMoved - is called when the table splitter is moved. Used
+     *        to detect if the table view gets completely hidden and set the buttons
+     *        accordingly
+     * @param pos - unused
+     * @param index - unused
+     */
+    void tableSplitterMoved(int pos, int index);
 
 };
 
