@@ -124,6 +124,9 @@ MacBuild | LinuxBuild {
     message("Skipping support for libfreenect")
 }
 
+
+include(libs/qRealFourier/qRealFourier.pri)
+
 #
 # AGLLIB math library
 #
