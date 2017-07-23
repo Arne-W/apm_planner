@@ -727,7 +727,8 @@ HEADERS += \
     src/ui/Loghandling/LogdataStorage.h \
     src/ui/Loghandling/LogExporter.h \
     src/ui/Loghandling/LogAnalysis.h \
-    src/ui/Loghandling/PresetManager.h
+    src/ui/Loghandling/PresetManager.h \
+    src/ui/Loghandling/CsvLogParser.h
 
 SOURCES += src/main.cc \
     src/QGCCore.cc \
@@ -953,7 +954,8 @@ SOURCES += src/main.cc \
     src/ui/Loghandling/LogdataStorage.cpp \
     src/ui/Loghandling/LogExporter.cpp \
     src/ui/Loghandling/LogAnalysis.cpp \
-    src/ui/Loghandling/PresetManager.cpp
+    src/ui/Loghandling/PresetManager.cpp \
+    src/ui/Loghandling/CsvLogParser.cpp
 
 MacBuild | WindowsBuild : contains(GOOGLEEARTH, enable) { #fix this to make sense ;)
     message(Including support for Google Earth)

@@ -33,6 +33,7 @@ This file is part of the APM_PLANNER project
 #include "Loghandling/BinLogParser.h"
 #include "Loghandling/AsciiLogParser.h"
 #include "Loghandling/TlogParser.h"
+#include "Loghandling/CsvLogParser.h"
 
 
 AP2DataPlotThread::AP2DataPlotThread(LogdataStorage::Ptr storagePtr, QObject *parent) :
@@ -121,6 +122,14 @@ void AP2DataPlotThread::run()
     {
         //It's a tlog
         TlogParser parser(m_dataStoragePtr, this);
+        mp_logParser = &parser;
+        plotState = parser.parse(logfile);
+        mp_logParser = 0;
+    }
+    else if (m_fileName.toLower().endsWith(".csv"))
+    {
+        //It's a csv
+        CSVLogParser parser(m_dataStoragePtr, this);
         mp_logParser = &parser;
         plotState = parser.parse(logfile);
         mp_logParser = 0;
