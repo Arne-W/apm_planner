@@ -607,7 +607,7 @@ void AP2DataPlot2D::valueChanged(const int uasId, const QString& name, const QSt
 
 void AP2DataPlot2D::loadButtonClicked()
 {
-    QFileDialog *dialog = new QFileDialog(this,"Load File",QGC::logDirectory(),"Dataflash Log Files (*.log *.bin *.BIN *.tlog);;All Files (*.*)");
+    QFileDialog *dialog = new QFileDialog(this,"Load File",QGC::logDirectory(),"Dataflash Log Files (*.log *.bin *.BIN *.tlog *.CSV *.csv);;All Files (*.*)");
     dialog->setFileMode(QFileDialog::ExistingFile);
     dialog->open(this, SLOT(loadDialogAccepted()));
 }

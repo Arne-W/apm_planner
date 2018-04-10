@@ -20,10 +20,10 @@ This file is part of the APM_PLANNER project
 
 ======================================================================*/
 /**
- * @file AsciiLogParser.h
+ * @file CSVLogParser.h
  * @author Arne Wischmann <wischmann-a@gmx.de>
  * @date 09 Okt 2016
- * @brief File providing header for the ascii log parser
+ * @brief File providing header for the CSV log parser
  */
 
 #ifndef CSVLOGPARSER_H
@@ -35,8 +35,8 @@ This file is part of the APM_PLANNER project
 #include "LogdataStorage.h"
 
 /**
- * @brief The AsciiLogParser class is a parser for ASCII ArduPilot
- *        logfiles (.log extension).
+ * @brief The CSVLogParser class is a parser for CSV logfiles (.CSV extension).
+ *        This format can be used with beta-, race or butterFlight
  */
 class CSVLogParser : public LogParserBase
 {
