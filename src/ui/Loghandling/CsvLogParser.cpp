@@ -55,7 +55,9 @@ AP2DataPlotStatus CSVLogParser::parse(QFile &logfile)
     bool headerLine = true;
     QStringList labels;
 
-    m_activeTimestamp = m_possibleTimestamps.at(0);
+    // in blackbox logs the time is always in microsecs
+    m_activeTimestamp.m_name = "TimeUS";
+    m_activeTimestamp.m_divisor = 1000000.0;
 
     while (!logfile.atEnd() && !m_stop)
     {
@@ -68,6 +70,7 @@ AP2DataPlotStatus CSVLogParser::parse(QFile &logfile)
 
         if(m_tokensToParse.size() > 0)
         {
+            // We assume the first line is the header
             if(headerLine)
             {
                 QStringList::Iterator iter;
