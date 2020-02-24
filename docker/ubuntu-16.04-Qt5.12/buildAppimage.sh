@@ -2,32 +2,26 @@
 
 set -x
 
-CORES=nproc --all
-
-{ cd /root/planner/
+{ cd /home/build/planner/
     qmake apm_planner.pro CONFIG+=qtquickcompiler -spec linux-g++-64
-    make -j$CORES
-}
+    make -j$(nproc)
 
-
-{ cd /root/appimage
-
-    /root/planner/linuxdeploy-x86_64.AppImage --appimage-extract
-    /root/planner/linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
+    /home/build/planner/linuxdeploy-x86_64.AppImage --appimage-extract
+    /home/build/planner/linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
 
     QTPATH=/opt/qt512/
 
     BINARY=apmplanner2
 
-    BINPATH=/root/planner/release
+    BINPATH=/home/build/planner/release
 
-    LINUXDEPLOY=/root/appimage/squashfs-root/usr/bin/linuxdeploy
+    LINUXDEPLOY=/home/build/planner/squashfs-root/usr/bin/linuxdeploy
 
-    BUILDINGPATH=/root/planner/AppImageBuild
+    BUILDINGPATH=/home/build/planner/AppImageBuild
 
-    ICON=/root/planner/files/APMIcons/icon.iconset/icon_512x512.png
+    ICON=/home/build/planner/files/APMIcons/icon.iconset/icon_512x512.png
 
-    DESKTOPFILE=/root/appimage/apmplanner2.desktop
+    DESKTOPFILE=/home/build/appimage/apmplanner2.desktop
 
     # needed in for centos package
     #LIBADD=libasound.so.2
@@ -44,7 +38,6 @@ CORES=nproc --all
     export QML_MODULES_PATHS=$BINPATH/qml
 
     export VERSION=2.0.28-rc1
-
 
     $LINUXDEPLOY --appdir $BUILDINGPATH -e $BINPATH/$BINARY -i $ICON -d $DESKTOPFILE  --plugin qt --output appimage
 }
