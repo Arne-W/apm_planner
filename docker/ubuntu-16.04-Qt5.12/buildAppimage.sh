@@ -2,11 +2,10 @@
 
 set -x
 
-
 SOURCEPATH=/home/build/planner
 
 { cd $SOURCEPATH
-    qmake apm_planner.pro CONFIG+=qtquickcompiler -spec linux-g++-64
+    qmake apm_planner.pro -spec linux-g++-64
     make -j$(nproc)
 
     $SOURCEPATH/linuxdeploy-x86_64.AppImage --appimage-extract
@@ -31,16 +30,26 @@ SOURCEPATH=/home/build/planner
 
     #----------------------------------------------
 
-    # seems to be not needed anymore
-    # export LD_LIBRARY_PATH=$QTPATH/lib
-
     export QMAKE=$QTPATH/bin/qmake
 
     export QML_SOURCES_PATHS=$SOURCEPATH/qml
 
-    export QML_MODULES_PATHS=$BINPATH/qml
-
     export VERSION=2.0.27-rc1
+
+    # Create directory structure for AppImage
+    $LINUXDEPLOY --appdir $BUILDINGPATH
+
+    # Prepopulate the directories
+    # copy qml files
+    cp -R $SOURCEPATH/qml $BUILDINGPATH/usr/bin
+    # copy sik-radio update tool
+    cp -R $SOURCEPATH/sik_uploader $BUILDINGPATH/usr/bin 
+    # copy icons
+    cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_16x16.png $BUILDINGPATH/usr/share/icons/hicolor/16x16/apps/
+    cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_32x32.png $BUILDINGPATH/usr/share/icons/hicolor/32x32/apps/
+    cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_128x128.png $BUILDINGPATH/usr/share/icons/hicolor/128x128/apps/
+    cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_256x256.png $BUILDINGPATH/usr/share/icons/hicolor/256x256/apps/
+
 
     $LINUXDEPLOY --appdir $BUILDINGPATH -e $BINPATH/$BINARY -i $ICON -d $DESKTOPFILE  --plugin qt --output appimage
 }
