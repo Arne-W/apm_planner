@@ -1,28 +1,29 @@
 #!/bin/bash
 
+# stop in case of error
+set -e 
 set -x
 
 SOURCEPATH=/home/build/planner
 
 { cd $SOURCEPATH
+
+    # build apm planner
     qmake apm_planner.pro -spec linux-g++-64
     make -j$(nproc)
 
+    # create the appimage
+    # appimages do not work in docker due to the lack of fuse. So we simply extract the images
     $SOURCEPATH/linuxdeploy-x86_64.AppImage --appimage-extract
     $SOURCEPATH/linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
 
+    # setup path
     QTPATH=/opt/qt512
-
     BINARY=apmplanner2
-
     BINPATH=$SOURCEPATH/release
-
     LINUXDEPLOY=$SOURCEPATH/squashfs-root/usr/bin/linuxdeploy
-
     BUILDINGPATH=$SOURCEPATH/AppImageBuild
-
     ICON=$SOURCEPATH/files/APMIcons/icon.iconset/icon_512x512.png
-
     DESKTOPFILE=/home/build/appimage/apmplanner2.desktop
 
     # needed in for centos package
@@ -31,9 +32,7 @@ SOURCEPATH=/home/build/planner
     #----------------------------------------------
 
     export QMAKE=$QTPATH/bin/qmake
-
     export QML_SOURCES_PATHS=$SOURCEPATH/qml
-
     export VERSION=2.0.27-rc1
 
     # Create directory structure for AppImage
