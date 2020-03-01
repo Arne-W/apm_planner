@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y qt512svg qt512serialport zlib1g-dev lib
 
 COPY ./apmplanner2.desktop /home/build/appimage/
 COPY ./apmplanner2.appdata.xml /home/build/appimage/
+COPY ./linuxdeploy-plugin-qt-hook.sh /home/build/appimage/
 COPY ./buildAppimage.sh /home/build/appimage/
 
 ENV PATH "$PATH:/opt/qt512/bin"

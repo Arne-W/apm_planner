@@ -26,6 +26,9 @@ SOURCEPATH=/home/build/planner
     ICON=$SOURCEPATH/files/APMIcons/icon.iconset/icon_512x512.png
     DESKTOPFILE=/home/build/appimage/apmplanner2.desktop
     METADATAFILE=/home/build/appimage/apmplanner2.appdata.xml
+    
+    # workaround as long as QTHOOK is not correct
+    QTHOOK=/home/build/appimage/linuxdeploy-plugin-qt-hook.sh
 
     # needed in for centos package
     #LIBADD=libasound.so.2
@@ -55,5 +58,10 @@ SOURCEPATH=/home/build/planner
     cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_128x128.png $BUILDINGPATH/usr/share/icons/hicolor/128x128/apps/
     cp $SOURCEPATH/files/APMIcons/icon.iconset/icon_256x256.png $BUILDINGPATH/usr/share/icons/hicolor/256x256/apps/
 
-    $LINUXDEPLOY --appdir $BUILDINGPATH -e $BINPATH/$BINARY -i $ICON -d $DESKTOPFILE  --plugin qt --output appimage
+    $LINUXDEPLOY --appdir $BUILDINGPATH -e $BINPATH/$BINARY -i $ICON -d $DESKTOPFILE  --plugin qt # --output appimage
+    
+    # workaround as long as QTHOOK is not correct
+    cp -f $QTHOOK $BUILDINGPATH/apprun-hooks
+    /home/build/planner/squashfs-root/plugins/linuxdeploy-plugin-appimage/usr/bin/appimagetool $BUILDINGPATH "-g"
+    
 }
