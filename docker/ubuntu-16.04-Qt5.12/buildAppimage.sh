@@ -37,7 +37,7 @@ SOURCEPATH=/home/build/planner
 
     export QMAKE=$QTPATH/bin/qmake
     export QML_SOURCES_PATHS=$SOURCEPATH/qml
-    export VERSION=2.0.27-rc1
+    export VERSION=2.0.28-rc1
 
     # Create directory structure for AppImage
     $LINUXDEPLOY --appdir $BUILDINGPATH
